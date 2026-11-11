@@ -318,6 +318,28 @@ body {
   padding-bottom: 0.25rem;
 }
 
+/* On mobile: single scrollable horizontal row, no wrapping */
+@media (max-width: 640px) {
+  .domain-pills-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;        /* Firefox */
+    padding-bottom: 6px;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 0.4rem;
+  }
+  .domain-pills-row::-webkit-scrollbar {
+    display: none;                /* Chrome/Safari */
+  }
+  .domain-pill {
+    flex-shrink: 0;
+  }
+}
+
 .domain-pill {
   display: inline-flex;
   align-items: center;
