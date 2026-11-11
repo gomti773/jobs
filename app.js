@@ -4864,8 +4864,4 @@ nextPageBtn.addEventListener("click", () => {
  */
 document.addEventListener("DOMContentLoaded", () => {
   render();
-  // Automatically select first job to match reference screenshot
-  if (JOBS_DATA.length > 0) {
-    openJobDetailPane(JOBS_DATA[0]);
-  }
 });
