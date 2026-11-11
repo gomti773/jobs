@@ -308,6 +308,53 @@ body {
 /* ==========================================================================
    Exact Domain Filter Row (Matches Uploaded Screenshots)
    ========================================================================== */
+/* ── NEW: Inline domain pill buttons row ── */
+.domain-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.domain-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  line-height: 1.4;
+}
+
+.domain-pill:hover {
+  border-color: #a5b4fc;
+  color: #4846e9;
+  background: #f5f3ff;
+}
+
+.domain-pill.active {
+  background: #4846e9;
+  border-color: #4846e9;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(72,70,233,0.25);
+}
+
+.domain-pill.active svg {
+  stroke: #ffffff;
+}
+
+/* keep the old dropdown row class for reference but hide it */
 .domain-filter-row {
   display: flex;
   align-items: center;

@@ -4089,7 +4089,6 @@ const detailContinueBtn = document.getElementById("detailContinueBtn");
 const detailSaveBtn = document.getElementById("detailSaveBtn");
 const closeDetailPaneBtn = document.getElementById("closeDetailPaneBtn");
 const expandPaneBtn = document.getElementById("expandPaneBtn");
-const filterToggleBtn = document.getElementById("filterToggleBtn");
 
 const searchInput = document.getElementById("searchInput");
 const clearSearchBtn = document.getElementById("clearSearchBtn");
@@ -4103,11 +4102,9 @@ const pageNumbersEl = document.getElementById("pageNumbers");
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
 
-// Domain Filter Elements
-const domainTriggerBtn = document.getElementById("domainTriggerBtn");
-const domainBtnText = document.getElementById("domainBtnText");
-const domainMenu = document.getElementById("domainMenu");
-const clearDomainFilterBtn = document.getElementById("clearDomainFilterBtn");
+// Domain Filter Elements (pill buttons row)
+const domainPills = document.querySelectorAll(".domain-pill");
+const clearDomainFilterBtn = null; // no longer used — pills handle their own active state
 
 // Modal Elements
 const jobDetailsModal = document.getElementById("jobDetailsModal");
@@ -4643,12 +4640,7 @@ expandPaneBtn.addEventListener("click", () => {
 });
 
 // Filter button in toolbar (toggles domain dropdown)
-filterToggleBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const isOpen = domainMenu.classList.toggle("show");
-  domainTriggerBtn.classList.toggle("open", isOpen);
-  sortMenu.classList.remove("show");
-});
+// (domain filter is now inline pills — no toggle button needed)
 
 // Render Pagination
 function renderPagination(totalJobs) {
@@ -4716,23 +4708,17 @@ function renderPagination(totalJobs) {
 }
 
 // Update Domain trigger pill and clear button UI
+// Update active state on domain pill buttons
 function updateDomainFilterUI() {
-  if (state.selectedDomain !== "all") {
-    domainBtnText.textContent = `Domain: ${state.selectedDomain}`;
-    domainTriggerBtn.classList.add("active");
-    clearDomainFilterBtn.style.display = "inline-flex";
-  } else {
-    domainBtnText.textContent = "Domain";
-    domainTriggerBtn.classList.remove("active");
-    clearDomainFilterBtn.style.display = "none";
-  }
-
-  // Highlight selected domain in dropdown
-  document.querySelectorAll(".domain-item").forEach(item => {
-    if (item.dataset.domain.toLowerCase() === state.selectedDomain.toLowerCase()) {
-      item.classList.add("selected");
+  domainPills.forEach(pill => {
+    const pillDomain = pill.dataset.domain;
+    if (
+      (pillDomain === "all" && state.selectedDomain === "all") ||
+      (pillDomain && pillDomain.toLowerCase() === state.selectedDomain.toLowerCase())
+    ) {
+      pill.classList.add("active");
     } else {
-      item.classList.remove("selected");
+      pill.classList.remove("active");
     }
   });
 }
@@ -4799,22 +4785,19 @@ domainTriggerBtn.addEventListener("click", (e) => {
 });
 
 // Click on Domain Item in Menu
-document.querySelectorAll(".domain-item").forEach(item => {
-  item.addEventListener("click", (e) => {
+// Domain pill button click handlers
+domainPills.forEach(pill => {
+  pill.addEventListener("click", (e) => {
     e.stopPropagation();
-    state.selectedDomain = item.dataset.domain;
+    const domain = pill.dataset.domain || "all";
+    state.selectedDomain = domain;
     state.currentPage = 1;
-    domainMenu.classList.remove("show");
-    domainTriggerBtn.classList.remove("open");
     render();
   });
 });
 
 // Clear Domain Filter Pill [ × Clear ]
-clearDomainFilterBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  clearAllFilters();
-});
+// (clear domain filter handled by clicking "All" pill)
 
 emptyResetBtn.addEventListener("click", () => {
   clearAllFilters();
@@ -4826,17 +4809,11 @@ function clearAllFilters() {
   state.currentPage = 1;
   searchInput.value = "";
   clearSearchBtn.style.display = "none";
-  domainMenu.classList.remove("show");
-  domainTriggerBtn.classList.remove("open");
   render();
 }
 
-// Close dropdowns on outside click
+// Close sort dropdown on outside click
 document.addEventListener("click", (e) => {
-  if (!domainMenu.contains(e.target) && !domainTriggerBtn.contains(e.target) && !filterToggleBtn.contains(e.target)) {
-    domainMenu.classList.remove("show");
-    domainTriggerBtn.classList.remove("open");
-  }
   if (!sortMenu.contains(e.target) && !sortToggleBtn.contains(e.target)) {
     sortMenu.classList.remove("show");
   }
