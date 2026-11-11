@@ -4102,8 +4102,10 @@ const pageNumbersEl = document.getElementById("pageNumbers");
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
 
-// Domain Filter Elements (pill buttons row)
+// Domain Filter Elements (pill buttons row & mobile select)
 const domainPills = document.querySelectorAll(".domain-pill");
+const domainMobileSelect = document.getElementById("domainMobileSelect");
+const mobileBackBtn = document.getElementById("mobileBackBtn");
 
 // Modal Elements
 const jobDetailsModal = document.getElementById("jobDetailsModal");
@@ -4300,6 +4302,7 @@ function openJobDetailPane(job) {
 
   splitLayoutContainer.classList.add("pane-open");
   splitRightPane.style.display = "flex";
+  document.body.classList.add("pane-open-mobile");
 
   // Re-highlight active card in grid
   document.querySelectorAll(".job-card").forEach(card => {
@@ -4354,6 +4357,7 @@ function closeDetailPane() {
   state.selectedJobId = null;
   splitLayoutContainer.classList.remove("pane-open");
   splitRightPane.style.display = "none";
+  document.body.classList.remove("pane-open-mobile");
 
   document.querySelectorAll(".job-card").forEach(card => {
     card.classList.remove("active-selected");
@@ -4626,8 +4630,11 @@ detailSaveBtn.addEventListener("click", () => {
   }
 });
 
-// Close button in right detail pane
+// Close button in right detail pane (desktop close & mobile back)
 closeDetailPaneBtn.addEventListener("click", closeDetailPane);
+if (mobileBackBtn) {
+  mobileBackBtn.addEventListener("click", closeDetailPane);
+}
 
 // Expand pane toggle button (full width / split width)
 expandPaneBtn.addEventListener("click", () => {
@@ -4707,7 +4714,7 @@ function renderPagination(totalJobs) {
 }
 
 // Update Domain trigger pill and clear button UI
-// Update active state on domain pill buttons
+// Update active state on domain pill buttons and mobile select list
 function updateDomainFilterUI() {
   domainPills.forEach(pill => {
     const pillDomain = pill.dataset.domain;
@@ -4720,6 +4727,10 @@ function updateDomainFilterUI() {
       pill.classList.remove("active");
     }
   });
+
+  if (domainMobileSelect) {
+    domainMobileSelect.value = state.selectedDomain;
+  }
 }
 
 function escapeHTML(str) {
@@ -4776,7 +4787,7 @@ sortMenu.querySelectorAll(".dropdown-item").forEach(item => {
 // (domain filter is now inline pills — no dropdown toggle needed)
 
 // Click on Domain Item in Menu
-// Domain pill button click handlers
+// Domain pill button click handlers (Desktop)
 domainPills.forEach(pill => {
   pill.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -4786,6 +4797,16 @@ domainPills.forEach(pill => {
     render();
   });
 });
+
+// Domain mobile select list change handler (Mobile)
+if (domainMobileSelect) {
+  domainMobileSelect.addEventListener("change", (e) => {
+    state.selectedDomain = e.target.value || "all";
+    state.currentPage = 1;
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
 
 // Clear Domain Filter Pill [ × Clear ]
 // (clear domain filter handled by clicking "All" pill)
@@ -4800,6 +4821,9 @@ function clearAllFilters() {
   state.currentPage = 1;
   searchInput.value = "";
   clearSearchBtn.style.display = "none";
+  if (domainMobileSelect) {
+    domainMobileSelect.value = "all";
+  }
   render();
 }
 

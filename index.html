@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Opportunity Portal - Explore Jobs</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@
           </div>
         </section>
 
-        <!-- Domain Filter Pill Buttons Row -->
+        <!-- Domain Filter Pill Buttons Row (Desktop & Tablet) -->
         <section class="domain-pills-row" id="domainFilterRow">
           <button class="domain-pill" data-domain="all" id="domainPillAll">All</button>
           <button class="domain-pill" data-domain="Software engineering">
@@ -171,6 +171,39 @@
           </button>
         </section>
 
+        <!-- Domain Filter Mobile List (Dropdown list on mobile for the buttons) -->
+        <section class="domain-mobile-list-section" id="domainMobileListSection">
+          <div class="domain-mobile-select-card">
+            <div class="domain-mobile-select-icon-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <select id="domainMobileSelect" class="domain-mobile-select" aria-label="Select domain category">
+              <option value="all">All Domains (101 opportunities)</option>
+              <option value="Software engineering">Software engineering (34)</option>
+              <option value="Other engineering">Other engineering (28)</option>
+              <option value="Arts & Design">Arts & Design (18)</option>
+              <option value="Business operations">Business operations (10)</option>
+              <option value="Data analysis">Data analysis (2)</option>
+              <option value="Finance">Finance (2)</option>
+              <option value="Medicine">Medicine (2)</option>
+              <option value="Life, Physical, and Social Science">Science (2)</option>
+              <option value="Humanities">Humanities (1)</option>
+              <option value="Language and Audio">Language & Audio (1)</option>
+              <option value="Law">Law (1)</option>
+              <option value="Miscellaneous">Miscellaneous (0)</option>
+            </select>
+            <div class="domain-mobile-arrow-box">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </section>
+
         <!-- Dynamic Job Cards Grid (4 cols default, 3 cols with side pane open) -->
         <section class="cards-grid-container" id="cardsGrid">
           <!-- Rendered dynamically via app.js -->
@@ -215,6 +248,13 @@
         <!-- Top Pane Controls -->
         <div class="detail-pane-header">
           <div class="pane-header-left">
+            <button class="mobile-back-btn" id="mobileBackBtn" title="Back to jobs" aria-label="Back to opportunities list">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
             <button class="icon-control-btn" id="expandPaneBtn" title="Toggle view">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -223,7 +263,7 @@
             </button>
           </div>
           <button class="icon-control-btn pane-close-btn" id="closeDetailPaneBtn" title="Close detail view" aria-label="Close details">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
@@ -261,6 +301,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

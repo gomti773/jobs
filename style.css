@@ -308,7 +308,7 @@ body {
 /* ==========================================================================
    Exact Domain Filter Row (Matches Uploaded Screenshots)
    ========================================================================== */
-/* ── NEW: Inline domain pill buttons row ── */
+/* ── Domain Filter Pill Buttons (Desktop) ── */
 .domain-pills-row {
   display: flex;
   align-items: center;
@@ -318,38 +318,16 @@ body {
   padding-bottom: 0.25rem;
 }
 
-/* On mobile: single scrollable horizontal row, no wrapping */
-@media (max-width: 640px) {
-  .domain-pills-row {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;        /* Firefox */
-    padding-bottom: 6px;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: 0.4rem;
-  }
-  .domain-pills-row::-webkit-scrollbar {
-    display: none;                /* Chrome/Safari */
-  }
-  .domain-pill {
-    flex-shrink: 0;
-  }
-}
-
 .domain-pill {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 13px;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1.5px solid #e2e8f0;
   background: #ffffff;
   font-family: inherit;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: #4b5563;
   cursor: pointer;
@@ -368,6 +346,76 @@ body {
 .domain-pill.active {
   background: #4846e9;
   border-color: #4846e9;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(72,70,233,0.25);
+}
+
+.domain-pill.active svg {
+  stroke: #ffffff;
+}
+
+/* ── Domain Filter Mobile List (Hidden on desktop, shown on mobile) ── */
+.domain-mobile-list-section {
+  display: none;
+  width: 100%;
+  margin-bottom: 1.15rem;
+}
+
+.domain-mobile-select-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0 12px;
+  height: 44px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.domain-mobile-select-card:focus-within {
+  border-color: #4846e9;
+  box-shadow: 0 0 0 3px rgba(72, 70, 233, 0.15);
+}
+
+.domain-mobile-select-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4846e9;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.domain-mobile-select {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1e293b;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  padding-right: 28px;
+}
+
+.domain-mobile-arrow-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  pointer-events: none;
+  flex-shrink: 0;
+  position: absolute;
+  right: 12px;
+}
   color: #ffffff;
   box-shadow: 0 2px 6px rgba(72,70,233,0.25);
 }
@@ -966,6 +1014,28 @@ body {
   color: #dc2626;
 }
 
+.mobile-back-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.mobile-back-btn:hover,
+.mobile-back-btn:active {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
 /* Scrollable Detail Body */
 .detail-pane-body {
   flex: 1;
@@ -1354,6 +1424,11 @@ body {
    RESPONSIVE — Mobile (≤ 768px)
    ========================================================================== */
 @media (max-width: 768px) {
+  /* Prevent background scroll when mobile detail drawer is open */
+  body.pane-open-mobile {
+    overflow: hidden !important;
+  }
+
   /* Navbar */
   .top-navbar {
     padding: 0.65rem 1rem;
@@ -1380,7 +1455,7 @@ body {
   .toolbar-section {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.6rem;
+    gap: 0.65rem;
     margin-top: 0.75rem;
     margin-bottom: 0.65rem;
   }
@@ -1388,9 +1463,32 @@ body {
     max-width: 100%;
     min-width: unset;
     width: 100%;
+    height: 44px;
   }
   .toolbar-actions {
-    justify-content: flex-end;
+    width: 100%;
+    display: flex;
+  }
+  .dropdown-wrapper {
+    width: 100%;
+  }
+  .control-btn#sortToggleBtn {
+    width: 100%;
+    justify-content: space-between;
+    height: 42px;
+  }
+  .dropdown-menu#sortMenu {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  /* Domain Filter: Hide horizontal pill buttons on mobile, show clean dropdown list */
+  .domain-pills-row {
+    display: none !important;
+  }
+  .domain-mobile-list-section {
+    display: block !important;
   }
 
   /* Cards grid: 1 column on mobile */
@@ -1404,61 +1502,87 @@ body {
     padding: 1rem;
   }
   .card-title {
-    font-size: 0.92rem;
+    font-size: 0.95rem;
   }
   .card-rate {
     font-size: 0.82rem;
   }
+  .card-bottom-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
 
-  /* Detail pane: full screen overlay */
+  /* Detail pane: full-screen app-like overlay drawer */
   .split-right-pane {
-    width: 100%;
-    max-width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
-    z-index: 1000;
-    overflow-y: auto;
-  }
-  .detail-pane-body {
-    padding: 1rem;
-  }
-  .detail-pane-header {
-    padding: 0.75rem 1rem;
-  }
-  .detail-pane-footer {
-    padding: 0.75rem 1rem;
-    gap: 0.6rem;
-  }
-  .detail-pane-footer .btn-continue {
-    font-size: 0.88rem;
-    padding: 0.65rem 1.1rem;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    z-index: 9999 !important;
+    display: none;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
   }
 
-  /* Domain pills scrollable row */
-  .domain-pills-row {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 6px;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: 0.4rem;
+  .split-layout-container.pane-open .split-right-pane {
+    display: flex !important;
   }
-  .domain-pills-row::-webkit-scrollbar { display: none; }
-  .domain-pill { flex-shrink: 0; font-size: 0.75rem; padding: 5px 11px; }
+
+  .detail-pane-header {
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    flex-shrink: 0 !important;
+  }
+
+  .mobile-back-btn {
+    display: inline-flex !important;
+  }
+
+  #expandPaneBtn {
+    display: none !important;
+  }
+
+  .detail-pane-body {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 1rem 1.15rem 1.5rem !important;
+  }
+
+  .detail-pane-footer {
+    flex-shrink: 0 !important;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    gap: 0.75rem !important;
+  }
+
+  .detail-pane-footer .btn-continue {
+    flex: 1 !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.92rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .detail-pane-footer .btn-save-role {
+    padding: 0.75rem 1rem;
+  }
 
   /* Pagination */
-  .pagination-container {
-    gap: 0.3rem;
+  .pagination-section {
+    gap: 0.35rem;
     flex-wrap: wrap;
     justify-content: center;
     padding: 1rem 0 0.5rem;
@@ -1468,7 +1592,7 @@ body {
     height: 32px;
     font-size: 0.8rem;
   }
-  .prev-next-btn {
+  .page-nav-btn {
     font-size: 0.8rem;
     padding: 0.4rem 0.75rem;
   }
@@ -1487,22 +1611,19 @@ body {
   .brand-name {
     font-size: 0.95rem;
   }
-  /* hide nav status pill on very small screens */
+  /* hide nav status text on very small screens, keep dot */
   .nav-status-pill span:last-child {
     display: none;
   }
   .cards-grid-container {
     grid-template-columns: 1fr !important;
-    gap: 0.6rem;
+    gap: 0.65rem;
   }
   .job-card {
     padding: 0.85rem;
   }
-  .domain-pills-row {
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+  .card-title {
+    font-size: 0.9rem;
   }
 }
 
