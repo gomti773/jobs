@@ -4060,6 +4060,62 @@ const JOBS_DATA = [
       "Full employer-provided W-2 payroll, benefits, and compliance."
     ],
     aboutCompany: "Cincinnatus LLC is an enterprise staffing company that partners with leading technology companies and AI labs to source and employ highly skilled professionals for contingent and extended workforce initiatives."
+  },
+  {
+    id: 102,
+    title: "Certified Financial Planner (CFP® / CFA)",
+    domain: "Finance",
+    rate: "$130 - $140 / hour",
+    rateNum: 140,
+    posted: "Posted 1 hour ago",
+    postedOrder: 1,
+    bonus: "$2000",
+    opportunityBadge: true,
+    oneClick: true,
+    applyUrl: "https://t.mercor.com/P5HR4",
+    location: "Remote (United States)",
+    jobType: "Hourly contract",
+    postedBy: "Opportunity Network",
+    summary: "Experienced financial planners and wealth advisors (CFP® and/or CFA charterholders) to help evaluate and improve advanced AI systems on realistic personal financial planning scenarios.",
+    overview: "We are seeking experienced financial planners and wealth advisors (CFP® and/or CFA charterholders) to help evaluate and improve advanced AI systems on realistic personal financial planning scenarios. You will work through complex household cases, completing well-scoped tasks that mirror real comprehensive planning and advice work.",
+    responsibilities: [
+      "Build, review, and critique comprehensive financial plans for realistic client households.",
+      "Evaluate AI-generated recommendations on retirement, tax, investment, insurance, and estate planning for accuracy, suitability, and completeness.",
+      "Provide clear, structured written explanations of your reasoning and the advice you would give a real client."
+    ],
+    scenarios: [
+      "Technology professionals with RSUs, ISOs, and concentrated stock positions.",
+      "Pre-retirees and retirees: Social Security timing, withdrawal sequencing, Roth conversions, and RMDs.",
+      "High-net-worth households: asset allocation, tax-aware rebalancing, and tax-loss harvesting.",
+      "Families with education funding, insurance needs, and estate-planning coordination.",
+      "Business owners: retirement plan design, succession, and cash-flow planning.",
+      "Life transitions: divorce, widowhood, inheritance, and career changes."
+    ],
+    qualifications: [
+      "Active CFP® certification and/or CFA charter.",
+      "5+ years of hands-on, client-facing financial planning or wealth management experience (currently or recently).",
+      "Based in the United States, with strong knowledge of US tax, retirement, and investment rules.",
+      "Excellent attention to detail and clear written communication."
+    ],
+    preferredQualifications: [
+      "Both CFP® and CFA, or additional credentials (CPA, EA, CPWA®, ChFC®, CAIA).",
+      "Experience at a fee-only RIA, advice-only practice, or established wealth management firm.",
+      "Experience with equity compensation, retirement income planning, and portfolio construction."
+    ],
+    whyJoin: [
+      "Apply your planning expertise to shape how AI systems give real-world financial advice.",
+      "Fully remote and flexible, at a highly competitive hourly rate.",
+      "Collaborate with a leading fintech and AI team.",
+      "We consider all qualified applicants without regard to legally protected characteristics and provide reasonable accommodations upon request."
+    ],
+    terms: [
+      "You will be engaged as an independent contractor.",
+      "This is a fully remote role that can be completed on your own schedule.",
+      "Projects can be extended, shortened, or concluded early depending on needs and performance.",
+      "Your work will not involve access to confidential or proprietary information from any employer, client, or institution.",
+      "Payments are weekly on Stripe or Wise based on services rendered.",
+      "Please note: We are unable to support H1-B or STEM OPT candidates at this time."
+    ]
   }
 ];
 
@@ -4518,6 +4574,45 @@ function populateDetailPane(job) {
     `;
   }
 
+  // Section: Scenarios You'll Work With
+  let scenariosHTML = "";
+  if (job.scenarios && job.scenarios.length) {
+    scenariosHTML = `
+      <div class="detail-content-section">
+        <h3>Scenarios You'll Work With</h3>
+        <ul>
+          ${job.scenarios.map(s => `<li>${escapeHTML(s)}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+  }
+
+  // Section: Preferred Qualifications
+  let prefQualHTML = "";
+  if (job.preferredQualifications && job.preferredQualifications.length) {
+    prefQualHTML = `
+      <div class="detail-content-section">
+        <h3>Preferred Qualifications</h3>
+        <ul>
+          ${job.preferredQualifications.map(p => `<li>${escapeHTML(p)}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+  }
+
+  // Section: Why Join Us?
+  let whyJoinHTML = "";
+  if (job.whyJoin && job.whyJoin.length) {
+    whyJoinHTML = `
+      <div class="detail-content-section">
+        <h3>Why Join Us?</h3>
+        <ul>
+          ${job.whyJoin.map(w => `<li>${escapeHTML(w)}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+  }
+
   // Section: Contract and Payment Terms
   let termsHTML = "";
   if (job.terms && job.terms.length) {
@@ -4594,10 +4689,13 @@ function populateDetailPane(job) {
     <!-- Job Intro / Context Blurb -->
     ${job.summary ? `<p style="font-size:0.83rem; color:#475569; margin-bottom:1rem; line-height:1.5;">${escapeHTML(job.summary)}</p>` : ""}
 
-    <!-- Sections 1, 2, 3 & Terms -->
+    <!-- Sections 1, 2, 3, Scenarios, Preferred, Why Join & Terms -->
     ${overviewHTML}
     ${respHTML}
+    ${scenariosHTML}
     ${qualHTML}
+    ${prefQualHTML}
+    ${whyJoinHTML}
     ${termsHTML}
   `;
 
