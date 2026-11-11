@@ -4104,7 +4104,6 @@ const nextPageBtn = document.getElementById("nextPageBtn");
 
 // Domain Filter Elements (pill buttons row)
 const domainPills = document.querySelectorAll(".domain-pill");
-const clearDomainFilterBtn = null; // no longer used — pills handle their own active state
 
 // Modal Elements
 const jobDetailsModal = document.getElementById("jobDetailsModal");
@@ -4760,8 +4759,6 @@ clearSearchBtn.addEventListener("click", () => {
 sortToggleBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   sortMenu.classList.toggle("show");
-  domainMenu.classList.remove("show");
-  domainTriggerBtn.classList.remove("open");
 });
 
 sortMenu.querySelectorAll(".dropdown-item").forEach(item => {
@@ -4776,13 +4773,7 @@ sortMenu.querySelectorAll(".dropdown-item").forEach(item => {
   });
 });
 
-// Domain Trigger Pill Dropdown Toggle
-domainTriggerBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const isOpen = domainMenu.classList.toggle("show");
-  domainTriggerBtn.classList.toggle("open", isOpen);
-  sortMenu.classList.remove("show");
-});
+// (domain filter is now inline pills — no dropdown toggle needed)
 
 // Click on Domain Item in Menu
 // Domain pill button click handlers
