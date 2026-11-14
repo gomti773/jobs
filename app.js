@@ -4811,6 +4811,163 @@ function renderPagination(totalJobs) {
   nextPageBtn.disabled = state.currentPage >= totalPages;
 }
 
+/**
+ * ============================================================================
+ * 🔗 DOMAIN PERMALINK & ROUTING CONFIGURATION
+ * ============================================================================
+ */
+const DOMAIN_SLUG_MAP = {
+  "all": "all",
+  "software engineering": "software-engineering",
+  "other engineering": "other-engineering",
+  "medicine": "medicine",
+  "law": "law",
+  "data analysis": "data-analysis",
+  "finance": "finance",
+  "business operations": "business-operations",
+  "life, physical, and social science": "science",
+  "arts & design": "arts-design",
+  "language and audio": "language-audio",
+  "humanities": "humanities",
+  "miscellaneous": "miscellaneous"
+};
+
+const SLUG_TO_DOMAIN_MAP = {
+  "all": "all",
+  "software-engineering": "Software engineering",
+  "other-engineering": "Other engineering",
+  "medicine": "Medicine",
+  "law": "Law",
+  "data-analysis": "Data analysis",
+  "finance": "Finance",
+  "business-operations": "Business operations",
+  "science": "Life, Physical, and Social Science",
+  "life-physical-and-social-science": "Life, Physical, and Social Science",
+  "arts-design": "Arts & Design",
+  "arts-and-design": "Arts & Design",
+  "language-audio": "Language and Audio",
+  "language-and-audio": "Language and Audio",
+  "humanities": "Humanities",
+  "miscellaneous": "Miscellaneous"
+};
+
+function getDomainSlug(domain) {
+  if (!domain || domain.toLowerCase() === "all") return "all";
+  const d = domain.toLowerCase().trim();
+  if (DOMAIN_SLUG_MAP[d]) return DOMAIN_SLUG_MAP[d];
+  return d.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function getDomainFromSlug(rawSlug) {
+  if (!rawSlug || rawSlug.toLowerCase() === "all") return "all";
+  const slug = decodeURIComponent(rawSlug).toLowerCase().trim().replace(/\+/g, " ");
+
+  if (SLUG_TO_DOMAIN_MAP[slug]) {
+    return SLUG_TO_DOMAIN_MAP[slug];
+  }
+
+  const matched = JOBS_DATA.find(j => {
+    if (!j.domain) return false;
+    const jd = j.domain.toLowerCase();
+    const jSlug = getDomainSlug(j.domain);
+    return jd === slug || jSlug === slug || jSlug === slug.replace(/[^a-z0-9]+/g, "-");
+  });
+
+  return matched ? matched.domain : "all";
+}
+
+function updateDomainUrl(domain, replace = false) {
+  try {
+    const url = new URL(window.location.href);
+    const slug = getDomainSlug(domain);
+    if (slug === "all") {
+      url.searchParams.delete("domain");
+    } else {
+      url.searchParams.set("domain", slug);
+    }
+
+    if (url.hash && (url.hash.includes("domain=") || getDomainFromSlug(url.hash.replace(/^#/, "")) !== "all")) {
+      url.hash = "";
+    }
+
+    const newUrl = url.pathname + (url.search ? url.search : "") + (url.hash ? url.hash : "");
+    if (replace) {
+      window.history.replaceState({ domain }, "", newUrl);
+    } else {
+      window.history.pushState({ domain }, "", newUrl);
+    }
+  } catch (err) {
+    // Graceful fallback
+  }
+}
+
+function syncPillPermalinks() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("ref") || urlParams.get("referral");
+    domainPills.forEach(pill => {
+      const domain = pill.dataset.domain || "all";
+      const slug = getDomainSlug(domain);
+      const params = new URLSearchParams();
+      if (slug !== "all") {
+        params.set("domain", slug);
+      }
+      if (ref) {
+        params.set("ref", ref);
+      }
+      const query = params.toString();
+      pill.setAttribute("href", query ? `?${query}` : "./");
+    });
+  } catch (err) {
+    // ignore
+  }
+}
+
+function updatePageTitle() {
+  if (state.selectedDomain && state.selectedDomain !== "all") {
+    document.title = `${state.selectedDomain} Jobs - Opportunity Portal`;
+  } else {
+    document.title = "Opportunity Portal - Explore Jobs";
+  }
+}
+
+function setDomain(domain, updateUrl = true) {
+  const resolved = getDomainFromSlug(domain);
+  state.selectedDomain = resolved;
+  state.currentPage = 1;
+  if (updateUrl) {
+    updateDomainUrl(resolved);
+  }
+  updatePageTitle();
+  render();
+}
+
+function initDomainFromUrl() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const domainParam = urlParams.get("domain") || urlParams.get("category");
+    if (domainParam) {
+      const resolved = getDomainFromSlug(domainParam);
+      if (resolved && resolved !== "all") {
+        state.selectedDomain = resolved;
+        updatePageTitle();
+        return;
+      }
+    }
+    if (window.location.hash) {
+      const hash = window.location.hash.replace(/^#/, "");
+      const hashParam = hash.startsWith("domain=") ? hash.replace("domain=", "") : hash;
+      const resolved = getDomainFromSlug(hashParam);
+      if (resolved && resolved !== "all") {
+        state.selectedDomain = resolved;
+        updatePageTitle();
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+}
+
 // Update Domain trigger pill and clear button UI
 // Update active state on domain pill buttons and mobile select list
 function updateDomainFilterUI() {
@@ -4829,6 +4986,9 @@ function updateDomainFilterUI() {
   if (domainMobileSelect) {
     domainMobileSelect.value = state.selectedDomain;
   }
+
+  syncPillPermalinks();
+  updatePageTitle();
 }
 
 function escapeHTML(str) {
@@ -4885,26 +5045,52 @@ sortMenu.querySelectorAll(".dropdown-item").forEach(item => {
 // (domain filter is now inline pills — no dropdown toggle needed)
 
 // Click on Domain Item in Menu
-// Domain pill button click handlers (Desktop)
+// Domain pill click handlers (Desktop & Tablet with permalink navigation)
 domainPills.forEach(pill => {
   pill.addEventListener("click", (e) => {
+    // Allow users to open in new tab via Ctrl/Cmd/Shift or middle click
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      return;
+    }
+    e.preventDefault();
     e.stopPropagation();
     const domain = pill.dataset.domain || "all";
-    state.selectedDomain = domain;
-    state.currentPage = 1;
-    render();
+    setDomain(domain, true);
   });
 });
 
-// Domain mobile select list change handler (Mobile)
+// Domain mobile select list change handler (Mobile with permalink update)
 if (domainMobileSelect) {
   domainMobileSelect.addEventListener("change", (e) => {
-    state.selectedDomain = e.target.value || "all";
-    state.currentPage = 1;
-    render();
+    const domain = e.target.value || "all";
+    setDomain(domain, true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
+
+// Browser Back / Forward navigation (popstate)
+window.addEventListener("popstate", (e) => {
+  let targetDomain = "all";
+  if (e.state && e.state.domain) {
+    targetDomain = e.state.domain;
+  } else {
+    const urlParams = new URLSearchParams(window.location.search);
+    const domainParam = urlParams.get("domain") || urlParams.get("category");
+    if (domainParam) {
+      targetDomain = getDomainFromSlug(domainParam);
+    } else if (window.location.hash) {
+      const hash = window.location.hash.replace(/^#/, "");
+      const hashParam = hash.startsWith("domain=") ? hash.replace("domain=", "") : hash;
+      targetDomain = getDomainFromSlug(hashParam);
+    }
+  }
+  if (state.selectedDomain !== targetDomain) {
+    state.selectedDomain = targetDomain;
+    state.currentPage = 1;
+    updatePageTitle();
+    render();
+  }
+});
 
 // Clear Domain Filter Pill [ × Clear ]
 // (clear domain filter handled by clicking "All" pill)
@@ -4922,6 +5108,8 @@ function clearAllFilters() {
   if (domainMobileSelect) {
     domainMobileSelect.value = "all";
   }
+  updateDomainUrl("all");
+  updatePageTitle();
   render();
 }
 
@@ -4953,5 +5141,7 @@ nextPageBtn.addEventListener("click", () => {
  * ============================================================================
  */
 document.addEventListener("DOMContentLoaded", () => {
+  initDomainFromUrl();
+  syncPillPermalinks();
   render();
 });

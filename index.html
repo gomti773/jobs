@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Opportunity Portal - Explore Jobs</title>
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -82,93 +82,93 @@
           </div>
         </section>
 
-        <!-- Domain Filter Pill Buttons Row (Desktop & Tablet) -->
+        <!-- Domain Filter Pill Buttons Row (Desktop & Tablet with Permalinks) -->
         <section class="domain-pills-row" id="domainFilterRow">
-          <button class="domain-pill" data-domain="all" id="domainPillAll">All</button>
-          <button class="domain-pill" data-domain="Software engineering">
+          <a href="?domain=all" class="domain-pill" data-domain="all" id="domainPillAll" title="View all opportunities">All</a>
+          <a href="?domain=software-engineering" class="domain-pill" data-domain="Software engineering" title="Software engineering opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>
             </svg>
             Software engineering
-          </button>
-          <button class="domain-pill" data-domain="Other engineering">
+          </a>
+          <a href="?domain=other-engineering" class="domain-pill" data-domain="Other engineering" title="Other engineering opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
             </svg>
             Other engineering
-          </button>
-          <button class="domain-pill" data-domain="Medicine">
+          </a>
+          <a href="?domain=medicine" class="domain-pill" data-domain="Medicine" title="Medicine opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path>
               <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
               <circle cx="20" cy="10" r="2"></circle>
             </svg>
             Medicine
-          </button>
-          <button class="domain-pill" data-domain="Law">
+          </a>
+          <a href="?domain=law" class="domain-pill" data-domain="Law" title="Law opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3v18"></path><path d="M3 7h18"></path>
               <path d="M6 7l-3 6h6l-3-6z"></path><path d="M18 7l-3 6h6l-3-6z"></path>
             </svg>
             Law
-          </button>
-          <button class="domain-pill" data-domain="Data analysis">
+          </a>
+          <a href="?domain=data-analysis" class="domain-pill" data-domain="Data analysis" title="Data analysis opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="20" x2="18" y2="10"></line>
               <line x1="12" y1="20" x2="12" y2="4"></line>
               <line x1="6" y1="20" x2="6" y2="14"></line>
             </svg>
             Data analysis
-          </button>
-          <button class="domain-pill" data-domain="Finance">
+          </a>
+          <a href="?domain=finance" class="domain-pill" data-domain="Finance" title="Finance opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="1" x2="12" y2="23"></line>
               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
             </svg>
             Finance
-          </button>
-          <button class="domain-pill" data-domain="Business operations">
+          </a>
+          <a href="?domain=business-operations" class="domain-pill" data-domain="Business operations" title="Business operations opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
             Business operations
-          </button>
-          <button class="domain-pill" data-domain="Life, Physical, and Social Science">
+          </a>
+          <a href="?domain=science" class="domain-pill" data-domain="Life, Physical, and Social Science" title="Science opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
               <line x1="8.5" y1="2" x2="15.5" y2="2"></line><line x1="7" y1="16" x2="17" y2="16"></line>
             </svg>
             Science
-          </button>
-          <button class="domain-pill" data-domain="Arts & Design">
+          </a>
+          <a href="?domain=arts-design" class="domain-pill" data-domain="Arts & Design" title="Arts & Design opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
               <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
               <circle cx="11" cy="11" r="2"></circle>
             </svg>
             Arts &amp; Design
-          </button>
-          <button class="domain-pill" data-domain="Language and Audio">
+          </a>
+          <a href="?domain=language-audio" class="domain-pill" data-domain="Language and Audio" title="Language & Audio opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 8l6 6"></path><path d="M4 14l6-6 2-3"></path>
               <path d="M2 5h12"></path><path d="M22 22l-5-10-5 10"></path><path d="M14 18h6"></path>
             </svg>
             Language &amp; Audio
-          </button>
-          <button class="domain-pill" data-domain="Humanities">
+          </a>
+          <a href="?domain=humanities" class="domain-pill" data-domain="Humanities" title="Humanities opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
               <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
             </svg>
             Humanities
-          </button>
-          <button class="domain-pill" data-domain="Miscellaneous">
+          </a>
+          <a href="?domain=miscellaneous" class="domain-pill" data-domain="Miscellaneous" title="Miscellaneous opportunities">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4v1.5a2.5 2.5 0 0 1-5 0V5H4a2 2 0 0 0-2 2v4h1.5a2.5 2.5 0 0 1 0 5H2v4a2 2 0 0 0 2 2h4v-1.5a2.5 2.5 0 0 1 5 0V22h4a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"></path>
             </svg>
             Miscellaneous
-          </button>
+          </a>
         </section>
 
         <!-- Domain Filter Mobile List (Dropdown list on mobile for the buttons) -->
@@ -301,6 +301,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>
